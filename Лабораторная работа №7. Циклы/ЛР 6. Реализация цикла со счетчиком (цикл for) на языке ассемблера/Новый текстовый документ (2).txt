@@ -1,0 +1,35 @@
+#include <cstdlib> 
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+int main()
+{
+    unsigned char y[7];
+    _asm
+    {
+        lea esi, y
+        mov ecx, 7
+        nX:
+        mov al, 8
+            sub al, cl
+            mov dl, al//x
+            mul al
+            shl al, 1
+            push ax
+            mov al, dl
+            mov bl, 5
+            mul bl
+            sub al, 3
+            pop bx
+            add al, bl
+            mov[esi], al
+            inc esi
+            loop nX
+    }
+    for (int x = 1; x <= 7; x++)
+        cout << int(y[x - 1]) << "  " << x * x + 3 * x - 5 << endl;
+    system("pause");
+    return 0;
+}
