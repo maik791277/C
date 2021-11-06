@@ -1,0 +1,43 @@
+#include <iostream>
+#include <stdlib.h>
+
+// Вариант 11
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int n = 87431138;
+	int d = 10;
+	int k = 0;
+	int s = 0;
+	int z = 0;
+	int c = 0;
+	int o = 0;
+	_asm {
+		mov eax, n
+		mov ebx, d
+		cmp eax, 0
+		je Exit
+		mov ecx, 0
+		FOR :
+		mov eax, n
+			mov edx, 0
+			div ebx
+			inc ecx
+			add s, edx
+			mov n, eax
+			mov o, edx
+			jpo OST
+			inc c
+			OST :
+		cmp eax, 0
+			jne FOR
+			Exit :
+		mov k, ecx
+			mov z, edx
+	}
+	std::cout << "Кол-во чисел: " << k 
+		<< " " << "Cумма чисел: " << s 
+		<< " " << "Первая цифра: " << z 
+		<< " " << "Кол-во четных чисел: " << c;
+}
