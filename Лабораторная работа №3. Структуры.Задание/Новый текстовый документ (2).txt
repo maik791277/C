@@ -1,0 +1,88 @@
+#include <cstdlib> 
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+const size_t routeQty = 8;
+
+struct Marsh {
+    string np;
+    string kp;
+    int nom;
+};
+
+void print_marsh(const Marsh& m) {
+    cout
+        << "\tот: " << m.np
+        << "\n\tк:   " << m.kp
+        << "\n\tnom: " << m.nom
+        << endl;
+
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+    int np;
+    bool priz = true;
+    Marsh marsh[routeQty];
+
+     
+    for (int i = 0; i < routeQty; i++) {
+        cout << "запись " << i + 1 << ":" << endl;
+        cout << "от: ";
+        getline(cin, marsh[i].np);
+        cout << "от: ";
+        getline(cin, marsh[i].kp);
+        cout << "nom: ";
+        cin >> marsh[i].nom;
+        cin.ignore();
+    }
+
+    
+    while (priz) {
+        priz = false;
+        for (int i = 1; i < routeQty; i++) {
+            if (marsh[i].nom < marsh[i - 1].nom) {
+                swap(marsh[i].np, marsh[i - 1].np);
+                swap(marsh[i].kp, marsh[i - 1].kp);
+                swap(marsh[i].nom, marsh[i - 1].nom);
+                priz = true;
+            }
+        }
+    }
+
+ 
+    for (int i = 0; i < routeQty; i++) {
+        cout << "запись " << i + 1 << ": " << endl;
+        print_marsh(marsh[i]);
+    }
+
+   
+    cout << endl << "поисковое" << endl;
+    string endpoint;
+    bool found;
+    do {
+        cout << "Введите конечную точку: ";
+        getline(cin, endpoint);
+
+        found = false;
+        for (int i = 0; i < routeQty; i++) {
+            if (marsh[i].np == endpoint || marsh[i].kp == endpoint) {
+                cout << "---" << endl;
+                print_marsh(marsh[i]);
+                found = true;
+            }
+        }
+        if (!found)
+            cout << "Маршруты не найдены." << endl;
+
+        cout << endl << "\nпродолжить ? (1 or 0): ";  cin >> np; cin.ignore();
+    } while (np != 0);
+
+    cout << endl;
+
+    return(0);
+}
